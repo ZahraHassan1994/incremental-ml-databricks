@@ -1,0 +1,53 @@
+resources:
+  jobs:
+
+    incremental_ml_pipeline:
+      name: incremental-ml-pipeline
+
+      trigger:
+        periodic:
+          interval: 5
+          unit: MINUTES
+
+      tasks:
+
+        - task_key: generate_data
+
+          spark_python_task:
+            python_file: ../src/generate_data.py
+
+          environment_key: default
+
+
+        - task_key: feature_engineering
+
+          depends_on:
+            - task_key: generate_data
+
+          spark_python_task:
+            python_file: ../src/feature_engineering.py
+
+          environment_key: default
+
+
+        - task_key: predict
+
+          depends_on:
+            - task_key: feature_engineering
+
+          spark_python_task:
+            python_file: ../src/predict.py
+
+          environment_key: default
+
+
+      environments:
+
+        - environment_key: default
+
+          spec:
+            environment_version: "2"
+
+            dependencies:
+              - "scikit-learn"
+              - "mlflow"

@@ -1,0 +1,22 @@
+bundle:
+  name: incremental-ml-databricks
+
+include:
+  - resources/*.yml
+
+targets:
+
+  dev:
+    mode: development
+
+    default: true
+
+    workspace:
+      host: ${var.databricks_host}
+
+  prod:
+    mode: production
+
+    workspace:
+      host: ${var.databricks_host}
+      root_path: /Workspace/Production/.bundle/${bundle.name}/${bundle.target}
