@@ -1,11 +1,9 @@
-```yaml
 name: CI
 
 on:
   pull_request:
     branches:
       - main
-
   push:
     branches:
       - main
@@ -14,7 +12,6 @@ permissions:
   contents: read
 
 jobs:
-
   test:
     runs-on: ubuntu-latest
 
@@ -55,4 +52,3 @@ jobs:
       - name: Validate Databricks Bundle
         run: |
           databricks bundle validate --target dev
-```
